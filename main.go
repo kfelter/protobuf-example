@@ -24,18 +24,6 @@ func main() {
 		},
 	}
 
-	// 	: []*publish.Event{
-	// 		{
-	// 			Content: []byte(`some event content!`),
-	// 			Tags:    []string{"tag1", "tag2"},
-	// 		},
-	// 		{
-	// 			Content: []byte(`some event content2!`),
-	// 			Tags:    []string{"tag3", "tag4"},
-	// 		},
-	// 	},
-	// }
-
 	start := time.Now()
 	buf, err := proto.Marshal(&e)
 	if err != nil {
