@@ -85,7 +85,7 @@ Now we can import it using `github.com/kfelter/protobuf-example/publish`
 
 There are other advantages to using protobuf that can be found in the protobuf documentation.
 
-Referances:
+References:
 
 install protoc           https://grpc.io/docs/protoc-installation/
 
