@@ -11,22 +11,13 @@ Protobuf is a much more efficient conversion method than json.
 In `main.go` we build an EventList object and marshal it into json and protobuf. 
 ```go
 start := time.Now()
-buf, err := proto.Marshal(&e)
-if err != nil {
-    panic(err)
-}
-if err = os.WriteFile("events.protobuf", buf, os.ModePerm); err != nil {
-    panic(err)
-}
+buf, _ := proto.Marshal(&e)
+os.WriteFile("events.protobuf", buf, os.ModePerm)
 fmt.Println("marshal events.protobuf", time.Since(start))
+
 start = time.Now()
-buf, err = json.Marshal(&e)
-if err != nil {
-    panic(err)
-}
-if err = os.WriteFile("events.json", buf, os.ModePerm); err != nil {
-    panic(err)
-}
+buf, _ = json.Marshal(&e)
+os.WriteFile("events.json", buf, os.ModePerm)
 fmt.Println("marshal events.json", time.Since(start))
 ```
 ```txt
@@ -44,28 +35,16 @@ $ ls -al events*
 
 Now checking the unmarshalling it takes a bit longer to unmarshal protobuf also.
 ```go
-events := publish.EventList{}
-buf, err = os.ReadFile("events.protobuf")
-if err != nil {
-    panic(err)
-}
+	events := publish.EventList{}
+buf, _ = os.ReadFile("events.protobuf")
 start = time.Now()
-err = proto.Unmarshal(buf, &events)
-if err != nil {
-    panic(err)
-}
+proto.Unmarshal(buf, &events)
 fmt.Println("unmarshal protobuf", events.String(), time.Since(start))
 
 events = publish.EventList{}
-buf, err = os.ReadFile("events.json")
-if err != nil {
-    panic(err)
-}
+buf, _ = os.ReadFile("events.json")
 start = time.Now()
-err = json.Unmarshal(buf, &events)
-if err != nil {
-    panic(err)
-}
+json.Unmarshal(buf, &events)
 fmt.Println("unmarshal json", events.String(), time.Since(start))
 ```
 ```txt
@@ -78,7 +57,7 @@ unmarshal json events:{content:"some event content!"  tags:"tag1"  tags:"tag2"} 
 
 # creating data structures using protobuf
 write the protobuf file
-```proto3
+```proto
 syntax = "proto3";
 package publish;
 option go_package  = "/publish";
