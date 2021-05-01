@@ -1,0 +1,12 @@
+syntax = "proto3";
+package publish;
+option go_package  = "/publish";
+
+message Event {
+  bytes content = 1;
+  repeated string tags = 2;
+}
+
+message EventList {
+  repeated Event events = 1;
+}
