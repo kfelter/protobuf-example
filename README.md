@@ -35,7 +35,7 @@ $ ls -al events*
 
 Now checking the unmarshalling it takes a bit longer to unmarshal protobuf also.
 ```go
-	events := publish.EventList{}
+events := publish.EventList{}
 buf, _ = os.ReadFile("events.protobuf")
 start = time.Now()
 proto.Unmarshal(buf, &events)
