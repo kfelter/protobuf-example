@@ -107,7 +107,10 @@ Now we can import it using `github.com/kfelter/protobuf-example/publish`
 There are other advantages to using protobuf that can be found in the protobuf documentation.
 
 Referances:
+
 install protoc           https://grpc.io/docs/protoc-installation/
+
 proto3 language guide    https://developers.google.com/protocol-buffers/docs/proto3#simple
+
 protobuf golang tutorial https://developers.google.com/protocol-buffers/docs/gotutorial
 
