@@ -2,58 +2,15 @@
 A simple example of using protobuf in golang
 
 # Summary
-Protobuf is a method of structuring data so that it can be stored as a byte array.
-JSON could also fit this description but there are many differences between json and protobuf.
+If you are not using gRPC for server to server communications in your golang app, you are missing out on one of the best optimizations that you can make for the performance of the code and the development team.
 
-The main difference demonstrated by this example is the size of the byte array when converting a data struct to a byte array.
-Protobuf is a much more efficient conversion method than json.
+1. It makes understanding the data model easier by strictly enforcing the proto 3 syntax. Json is easy to get started with and make a prototype, but protobuf will be more strict about syntax and standardize your communication between services.
 
-In `main.go` we build an EventList object and marshal it into json and protobuf. 
-```go
-start := time.Now()
-buf, _ := proto.Marshal(&e)
-os.WriteFile("events.protobuf", buf, os.ModePerm)
-fmt.Println("marshal events.protobuf", time.Since(start))
+2. Updating the schema for a gRPC request is simple, update the protobuf file and run code generation. Then it becomes like using any other package written in go to call your external service. No more boilerplate client code.
 
-start = time.Now()
-buf, _ = json.Marshal(&e)
-os.WriteFile("events.json", buf, os.ModePerm)
-fmt.Println("marshal events.json", time.Since(start))
-```
-```txt
-$ go run main.go
-marshal events.protobuf 397.726µs
-marshal events.json 269.558µs
-```
+3. Protobuf marshaling is faster, uses less memory and produces a smaller payload than Json or xml Marshalling. This directly impacts infrastructure costs and will save money.
 
-This indicates it takes slightly longer to marshal data into protobuf, but the file size of events.protobuf is much smaller.
-```
-$ ls -al events*
--rwxr-xr-x  1 kylefelter  staff  144 Apr 30 22:35 events.json
--rwxr-xr-x  1 kylefelter  staff   71 Apr 30 22:35 events.protobuf
-```
-
-Now checking the unmarshalling it takes a bit longer to unmarshal protobuf also.
-```go
-events := publish.EventList{}
-buf, _ = os.ReadFile("events.protobuf")
-start = time.Now()
-proto.Unmarshal(buf, &events)
-fmt.Println("unmarshal protobuf", events.String(), time.Since(start))
-
-events = publish.EventList{}
-buf, _ = os.ReadFile("events.json")
-start = time.Now()
-json.Unmarshal(buf, &events)
-fmt.Println("unmarshal json", events.String(), time.Since(start))
-```
-```txt
-$ go run main.go
-marshal events.protobuf 397.726µs
-marshal events.json 269.558µs
-unmarshal protobuf events:{content:"some event content!"  tags:"tag1"  tags:"tag2"}  events:{content:"some event content2!"  tags:"tag3"  tags:"tag4"} 98.805µs
-unmarshal json events:{content:"some event content!"  tags:"tag1"  tags:"tag2"}  events:{content:"some event content2!"  tags:"tag3"  tags:"tag4"} 40.391µs
-```
+The time and cost savings you will see from using gRPC in your golang app is worth the time investment it will take to learn and implement it.
 
 # creating data structures using protobuf
 write the protobuf file
